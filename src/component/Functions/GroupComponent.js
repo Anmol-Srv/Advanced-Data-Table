@@ -49,6 +49,10 @@ const GroupComponent = ({ columns, setGrouping, goBack }) => {
     setGrouping([]);
   };
 
+  const filterColumns = columns.filter(
+    (column) => column.accessorKey === 'category' || column.accessorKey === 'subcategory'
+  );
+
   return (
     <div>
       <Button onClick={goBack} variant="contained" color="secondary" style={{ marginBottom: '16px' }}>
@@ -62,7 +66,7 @@ const GroupComponent = ({ columns, setGrouping, goBack }) => {
           onChange={handleGroupChange}
           label="Select a column to group by"
         >
-          {columns.map((column) => (
+          {filterColumns.map((column) => (
             <MenuItem key={column.accessorKey} value={column.accessorKey}>
               {column.header}
             </MenuItem>

@@ -5,23 +5,25 @@ import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
-import FindInPageIcon from '@mui/icons-material/FindInPage';
 import SearchComponent from './Functions/SearchComponent';
 import SortComponent from './Functions/SortComponent';
 import GroupComponent from './Functions/GroupComponent';
 import FilterComponent from './Functions/FilterComponent';
-import FuzzyFindComponent from './Functions/FuzzyFindComponent';
+import ColumnVisibilityToggle from './Functions/ColumnVisibilityToggleComponent';
 
 const SidePanel = ({
   open,
   onClose,
   columns,
+  setFilter,
+  data,
   setGlobalFilter,
   setSorting,
   setGrouping,
   activeOption,
-  // toggleColumnVisibility,
   setActiveOption,
+  columnVisibility,
+  setColumnVisibility,
 }) => {
 
   const handleOptionSelect = (option) => {
@@ -41,9 +43,9 @@ const SidePanel = ({
       case 'group':
         return <GroupComponent columns={columns} setGrouping={setGrouping} goBack={goBack} />;
       case 'filter':
-        return <FilterComponent goBack={goBack} />;
-      case 'fuzzy':
-        return <FuzzyFindComponent goBack={goBack} />;
+        return <FilterComponent goBack={goBack} setFilter={setFilter} data={data} />;
+      case 'toggleColumns':
+        return <ColumnVisibilityToggle columns={columns} columnVisibility={columnVisibility} setColumnVisibility={setColumnVisibility} goBack={goBack} />;
       default:
         return renderOptions();
     }
@@ -92,14 +94,14 @@ const SidePanel = ({
         Filter
       </Button>
       <Button
-        startIcon={<FindInPageIcon />}
+        startIcon={<FilterListIcon />}
         fullWidth
-        onClick={() => handleOptionSelect('fuzzy')}
+        onClick={() => handleOptionSelect('toggleColumns')}
         variant="contained"
         color="primary"
         style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
       >
-        Fuzzy Find
+        Toggle Columns
       </Button>
     </div>
   );

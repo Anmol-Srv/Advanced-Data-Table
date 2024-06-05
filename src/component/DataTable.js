@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import sampleData from '../sampleData';
 import Button from '@mui/material/Button';
@@ -11,6 +11,7 @@ const DataTable = () => {
   const [sorting, setSorting] = useState([]);
   const [grouping, setGrouping] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
+  const [filteredData, setFilteredData] = useState(sampleData);
 
   const columns = useMemo(
     () => [
@@ -52,16 +53,24 @@ const DataTable = () => {
     []
   );
 
+  useEffect(() => {
+    const initialVisibility = {};
+    columns.forEach(column => {
+      initialVisibility[column.accessorKey] = true; // Set all columns to visible by default
+    });
+    setColumnVisibility(initialVisibility);
+  }, [columns]);
+
   return (
     <div className="p-6">
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Items</h2>
-        <Button variant="contained" onClick={() => setIsPanelOpen(true)}>
+        <Button variant="contained" onClick={() => setIsPanelOpen(true)} style={{height:'40px'}}>
           Side Panel
         </Button>
       </div>
       <MaterialReactTable
-        data={sampleData}
+        data={filteredData}
         columns={columns}
         enableColumnOrdering={false}
         enableSorting={true}
@@ -73,10 +82,11 @@ const DataTable = () => {
         enableColumnActions={false}
         muiPaginationProps={{
           color: 'primary',
-          shape: 'rounded',
+          // shape: 'rounded',
           showRowsPerPage: false,
           variant: 'outlined',
         }}
+        paginationDisplayMode='pages'
         state={{
           globalFilter,
           sorting,
@@ -92,15 +102,15 @@ const DataTable = () => {
         open={isPanelOpen}
         onClose={() => setIsPanelOpen(false)}
         columns={columns}
+        data={sampleData}
         setGlobalFilter={setGlobalFilter}
+        setFilter={setFilteredData}
         setSorting={setSorting}
         setGrouping={setGrouping}
-        toggleColumnVisibility={(columnId, isVisible) => setColumnVisibility(prev => ({
-          ...prev,
-          [columnId]: isVisible,
-        }))}
         activeOption={activeOption}
         setActiveOption={setActiveOption}
+        columnVisibility={columnVisibility}
+        setColumnVisibility={setColumnVisibility}
       />
     </div>
   );
