@@ -9,6 +9,7 @@ const DataTable = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [activeOption, setActiveOption] = useState('');
   const [sorting, setSorting] = useState([]);
+  const [grouping, setGrouping] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
 
   const columns = useMemo(
@@ -64,6 +65,7 @@ const DataTable = () => {
         columns={columns}
         enableColumnOrdering={false}
         enableSorting={true}
+        enableGrouping={true}
         enablePagination={true}
         enableColumnVisibility={true}
         enableFilters={true}
@@ -79,9 +81,11 @@ const DataTable = () => {
           globalFilter,
           sorting,
           columnVisibility,
+          grouping
         }}
         onGlobalFilterChange={setGlobalFilter}
         onSortingChange={setSorting}
+        onGroupingChange={setGrouping}
         onColumnVisibilityChange={setColumnVisibility}
       />
       <SidePanel
@@ -90,6 +94,7 @@ const DataTable = () => {
         columns={columns}
         setGlobalFilter={setGlobalFilter}
         setSorting={setSorting}
+        setGrouping={setGrouping}
         toggleColumnVisibility={(columnId, isVisible) => setColumnVisibility(prev => ({
           ...prev,
           [columnId]: isVisible,

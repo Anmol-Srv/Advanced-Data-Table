@@ -18,6 +18,7 @@ const SidePanel = ({
   columns,
   setGlobalFilter,
   setSorting,
+  setGrouping,
   activeOption,
   // toggleColumnVisibility,
   setActiveOption,
@@ -38,7 +39,7 @@ const SidePanel = ({
       case 'sort':
         return <SortComponent columns={columns} setSorting={setSorting} goBack={goBack} />;
       case 'group':
-        return <GroupComponent columns={columns} goBack={goBack} />;
+        return <GroupComponent columns={columns} setGrouping={setGrouping} goBack={goBack} />;
       case 'filter':
         return <FilterComponent goBack={goBack} />;
       case 'fuzzy':
