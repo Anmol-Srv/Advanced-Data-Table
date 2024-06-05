@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -19,8 +18,10 @@ const SidePanel = ({
   columns,
   setGlobalFilter,
   setSorting,
+  activeOption,
+  // toggleColumnVisibility,
+  setActiveOption,
 }) => {
-  const [activeOption, setActiveOption] = useState('');
 
   const handleOptionSelect = (option) => {
     setActiveOption(option);
@@ -33,7 +34,7 @@ const SidePanel = ({
   const renderActiveOption = () => {
     switch (activeOption) {
       case 'search':
-        return <SearchComponent setGlobalFilter={setGlobalFilter} goBack={goBack} />;
+        return <SearchComponent setGlobalFilter={setGlobalFilter} goBack={goBack} closePanel={onClose}/>;
       case 'sort':
         return <SortComponent columns={columns} setSorting={setSorting} goBack={goBack} />;
       case 'group':
@@ -55,7 +56,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('search')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0' }}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
       >
         Search
       </Button>
@@ -65,7 +66,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('sort')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0' }}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
       >
         Sort
       </Button>
@@ -75,7 +76,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('group')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0' }}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
       >
         Group
       </Button>
@@ -85,7 +86,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('filter')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0' }}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
       >
         Filter
       </Button>
@@ -95,7 +96,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('fuzzy')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0' }}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
       >
         Fuzzy Find
       </Button>
@@ -104,9 +105,8 @@ const SidePanel = ({
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
-      <div style={{ width: 250, padding: 16 }}>
-        <h3>Options</h3>
-        <Divider />
+      <div className='w-[550px] p-10 text-center'>
+        <h3 className='font-bold text-4xl mb-8 text-gray-900 mb-10'>Options</h3>
         {renderActiveOption()}
       </div>
     </Drawer>

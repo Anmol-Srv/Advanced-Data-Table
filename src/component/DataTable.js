@@ -7,6 +7,7 @@ import SidePanel from './SidePanel';
 const DataTable = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [activeOption, setActiveOption] = useState('');
   const [sorting, setSorting] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
 
@@ -55,7 +56,7 @@ const DataTable = () => {
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Items</h2>
         <Button variant="contained" onClick={() => setIsPanelOpen(true)}>
-          Filter & Sort
+          Side Panel
         </Button>
       </div>
       <MaterialReactTable
@@ -93,6 +94,8 @@ const DataTable = () => {
           ...prev,
           [columnId]: isVisible,
         }))}
+        activeOption={activeOption}
+        setActiveOption={setActiveOption}
       />
     </div>
   );
