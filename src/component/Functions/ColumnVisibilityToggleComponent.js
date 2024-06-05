@@ -1,8 +1,9 @@
 import React from 'react';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const ColumnVisibilityToggle = ({ columns, columnVisibility, setColumnVisibility, goBack }) => {
   const handleToggle = (columnId) => {
@@ -35,16 +36,15 @@ const ColumnVisibilityToggle = ({ columns, columnVisibility, setColumnVisibility
       </Button>
       <FormGroup>
         {columns.map(column => (
-          <FormControlLabel
-            key={column.accessorKey}
-            control={
-              <Checkbox
-                checked={!!columnVisibility[column.accessorKey]}
-                onChange={() => handleToggle(column.accessorKey)}
-              />
-            }
-            label={column.header}
-          />
+          <Box key={column.accessorKey} display="flex" justifyContent="space-between" alignItems="center">
+            <Typography variant="subtitle1" >
+              {column.header}
+            </Typography>
+            <Switch
+              checked={!!columnVisibility[column.accessorKey]}
+              onChange={() => handleToggle(column.accessorKey)}
+            />
+          </Box>
         ))}
       </FormGroup>
       <Button onClick={handleSelectAll} variant="contained" color="primary" style={{ marginTop: '16px' }}>

@@ -1,39 +1,16 @@
-// import React from 'react';
-// import List from '@mui/material/List';
-// import Button from '@mui/material/Button';
-
-// const GroupComponent = ({ columns, goBack }) => (
-//   <div>
-//     <Button onClick={goBack} variant="contained" color="secondary" style={{ marginBottom: '16px' }}>
-//       Go Back
-//     </Button>
-//     <List>
-//       {columns.map((column) => (
-//         <Button
-//           key={column.accessorKey}
-//           variant="outlined"
-//           color="primary"
-//           fullWidth
-//           style={{ margin: '8px 0' }}
-//         >
-//           {column.header}
-//         </Button>
-//       ))}
-//     </List>
-//   </div>
-// );
-
-// export default GroupComponent;
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-const GroupComponent = ({ columns, setGrouping, goBack }) => {
-  const [selectedColumn, setSelectedColumn] = useState('');
+const GroupComponent = ({ columns, setGrouping, goBack, closePanel, initialGroup }) => {
+  const [selectedColumn, setSelectedColumn] = useState(initialGroup);
+
+  useEffect(() => {
+    setSelectedColumn(initialGroup);
+  }, [initialGroup]);
 
   const handleGroupChange = (event) => {
     setSelectedColumn(event.target.value);
@@ -41,7 +18,7 @@ const GroupComponent = ({ columns, setGrouping, goBack }) => {
 
   const applyGrouping = () => {
     setGrouping(selectedColumn ? [selectedColumn] : []);
-    goBack();
+    closePanel();
   };
 
   const clearGrouping = () => {
@@ -73,23 +50,25 @@ const GroupComponent = ({ columns, setGrouping, goBack }) => {
           ))}
         </Select>
       </FormControl>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={applyGrouping}
-        style={{ marginTop: 16 }}
-        disabled={!selectedColumn}
-      >
-        Apply Grouping
-      </Button>
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={clearGrouping}
-        style={{ marginTop: 16 }}
-      >
-        Clear Grouping
-      </Button>
+      <div className='flex flex row justify-around'>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={applyGrouping}
+          style={{ marginTop: 16 }}
+          disabled={!selectedColumn}
+        >
+          Apply Grouping
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={clearGrouping}
+          style={{ marginTop: 16 }}
+        >
+          Clear Grouping
+        </Button>
+      </div>
     </div>
   );
 };

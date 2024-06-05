@@ -3,6 +3,7 @@ import { MaterialReactTable } from 'material-react-table';
 import sampleData from '../sampleData';
 import Button from '@mui/material/Button';
 import SidePanel from './SidePanel';
+import moment from 'moment';
 
 const DataTable = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -12,6 +13,7 @@ const DataTable = () => {
   const [grouping, setGrouping] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [filteredData, setFilteredData] = useState(sampleData);
+  const [initialGroup, setInitialGroup] = useState('');
 
   const columns = useMemo(
     () => [
@@ -34,12 +36,12 @@ const DataTable = () => {
       {
         accessorKey: 'createdAt',
         header: 'Created At',
-        cell: (info) => new Date(info.getValue()).toLocaleString(),
+        Cell: ({ row }) => moment(row.original.createdAt).format('DD-MMM-YYYY, HH:mm'),
       },
       {
         accessorKey: 'updatedAt',
         header: 'Updated At',
-        cell: (info) => new Date(info.getValue()).toLocaleString(),
+        Cell: ({ row }) => moment(row.original.createdAt).format('DD-MMM-YYYY, HH:mm'),
       },
       {
         accessorKey: 'price',
@@ -56,16 +58,21 @@ const DataTable = () => {
   useEffect(() => {
     const initialVisibility = {};
     columns.forEach(column => {
-      initialVisibility[column.accessorKey] = true; // Set all columns to visible by default
+      initialVisibility[column.accessorKey] = true;
     });
     setColumnVisibility(initialVisibility);
   }, [columns]);
+
+  const handleGroupApply = (group) => {
+    setInitialGroup(group.length > 0 ? group[0] : '');
+    setGrouping(group);
+  };
 
   return (
     <div className="p-6">
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-semibold">Items</h2>
-        <Button variant="contained" onClick={() => setIsPanelOpen(true)} style={{height:'40px'}}>
+        <Button variant="contained" onClick={() => setIsPanelOpen(true)} style={{ height: '40px' }}>
           Side Panel
         </Button>
       </div>
@@ -73,6 +80,7 @@ const DataTable = () => {
         data={filteredData}
         columns={columns}
         enableColumnOrdering={false}
+        enableCellActions={true}
         enableSorting={true}
         enableGrouping={true}
         enablePagination={true}
@@ -82,9 +90,17 @@ const DataTable = () => {
         enableColumnActions={false}
         muiPaginationProps={{
           color: 'primary',
-          // shape: 'rounded',
           showRowsPerPage: false,
           variant: 'outlined',
+        }}
+        muiTableHeadCellProps={{
+          align: 'center',
+        }}
+        muiTableBodyCellProps={{
+          align: 'center',
+        }}
+        muiTableFooterCellProps={{
+          align: 'center',
         }}
         paginationDisplayMode='pages'
         state={{
@@ -95,7 +111,7 @@ const DataTable = () => {
         }}
         onGlobalFilterChange={setGlobalFilter}
         onSortingChange={setSorting}
-        onGroupingChange={setGrouping}
+        onGroupingChange={handleGroupApply}
         onColumnVisibilityChange={setColumnVisibility}
       />
       <SidePanel
@@ -111,6 +127,7 @@ const DataTable = () => {
         setActiveOption={setActiveOption}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
+        initialGroup={initialGroup}
       />
     </div>
   );

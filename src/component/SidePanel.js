@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import TocIcon from '@mui/icons-material/Toc';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import SearchComponent from './Functions/SearchComponent';
 import SortComponent from './Functions/SortComponent';
@@ -24,6 +25,7 @@ const SidePanel = ({
   setActiveOption,
   columnVisibility,
   setColumnVisibility,
+  initialGroup,
 }) => {
 
   const handleOptionSelect = (option) => {
@@ -37,13 +39,13 @@ const SidePanel = ({
   const renderActiveOption = () => {
     switch (activeOption) {
       case 'search':
-        return <SearchComponent setGlobalFilter={setGlobalFilter} goBack={goBack} closePanel={onClose}/>;
+        return <SearchComponent setGlobalFilter={setGlobalFilter} goBack={goBack} closePanel={onClose} />;
       case 'sort':
         return <SortComponent columns={columns} setSorting={setSorting} goBack={goBack} />;
       case 'group':
-        return <GroupComponent columns={columns} setGrouping={setGrouping} goBack={goBack} />;
+        return <GroupComponent columns={columns} setGrouping={setGrouping} goBack={goBack} closePanel={onClose} initialGroup={initialGroup} />;
       case 'filter':
-        return <FilterComponent goBack={goBack} setFilter={setFilter} data={data} />;
+        return <FilterComponent goBack={goBack} setFilter={setFilter} data={data} closePanel={onClose} />;
       case 'toggleColumns':
         return <ColumnVisibilityToggle columns={columns} columnVisibility={columnVisibility} setColumnVisibility={setColumnVisibility} goBack={goBack} />;
       default:
@@ -59,7 +61,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('search')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px' }}
       >
         Search
       </Button>
@@ -69,7 +71,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('sort')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px' }}
       >
         Sort
       </Button>
@@ -79,7 +81,7 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('group')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px' }}
       >
         Group
       </Button>
@@ -89,17 +91,17 @@ const SidePanel = ({
         onClick={() => handleOptionSelect('filter')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px' }}
       >
         Filter
       </Button>
       <Button
-        startIcon={<FilterListIcon />}
+        startIcon={<TocIcon />}
         fullWidth
         onClick={() => handleOptionSelect('toggleColumns')}
         variant="contained"
         color="primary"
-        style={{ margin: '8px 0', height: '60px', fontSize: '20px'}}
+        style={{ margin: '8px 0', height: '60px', fontSize: '20px' }}
       >
         Toggle Columns
       </Button>
@@ -116,4 +118,4 @@ const SidePanel = ({
   );
 };
 
-export default SidePanel;/Functions/
+export default SidePanel; /Functions/
