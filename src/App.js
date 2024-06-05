@@ -1,10 +1,11 @@
 import React from 'react';
 import DataTable from './component/DataTable';
+import './index.css'
 
 function App() {
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Advanced Data Table</h1>
+    <div className="container flex flex-col mx-auto p-4">
+      <h1 className="text-6xl justify-items-center flex font-bold mb-6">Advanced Data Table</h1>
       <div className="bg-white shadow-md rounded">
         <DataTable />
       </div>
